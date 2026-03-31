@@ -1,0 +1,48 @@
+.radio-button-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .radio-button-group label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .radio-button-group input[type="radio"] {
+    margin-right: 5px;
+  }
+  
+  /* Custom styling for the radio buttons */
+  .radio-button-group input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #4CAF50; /* Green border */
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  /* Radio button checked state */
+  .radio-button-group input[type="radio"]:checked {
+    background-color: #4CAF50; /* Green background */
+  }
+  
+  /* Custom dot in the radio button */
+  .radio-button-group input[type="radio"]::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin: 3px;
+    border-radius: 50%;
+    background-color: #fff; /* White dot */
+  }
+  
+  /* Checked state dot */
+  .radio-button-group input[type="radio"]:checked::before {
+    background-color: #fff; /* White dot */
+  }
+  
