@@ -6,7 +6,7 @@ import pdfParse from 'pdf-parse/lib/pdf-parse.js'
 import mammoth from 'mammoth'
 
 const app = express()
-app.use(cors({ origin: 'http://localhost:5173' }))
+app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }))
 app.use(express.json())
 
 const MOCK_QUESTIONS_MODE = !process.env.ANTHROPIC_API_KEY  // mock question generation only
@@ -85,6 +85,8 @@ function extractInfoFallback(text: string) {
 
   return { name: nameLine || '', email, currentRole: roleLine || '' }
 }
+
+app.get('/health', (_req, res) => res.json({ ok: true }))
 
 app.post('/api/parse-resume', upload.single('file'), async (req, res) => {
   const file = req.file
@@ -264,5 +266,5 @@ app.post('/api/follow-up', async (req, res) => {
   }
 })
 
-const PORT = 3001
-app.listen(PORT, () => console.log(`API server running on http://localhost:${PORT}`))
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => console.log(`API server running on port ${PORT}`))

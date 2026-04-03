@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase'
 import { saveInterview, InterviewRecord, QuestionWithMeta } from '../lib/history'
 
 const MOCK_MODE = !import.meta.env.VITE_SUPABASE_URL
+const API = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 
 interface Props {
   initialRecord?: InterviewRecord | null
@@ -46,7 +47,7 @@ export default function ResumeForm({ initialRecord, onOpenHistory }: Props) {
     try {
       const formData = new FormData()
       formData.append('file', file)
-      const res = await fetch('http://localhost:3001/api/parse-resume', { method: 'POST', body: formData })
+      const res = await fetch(`${API}/api/parse-resume`, { method: 'POST', body: formData })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Failed to parse file')
       setResume(data.text)
@@ -89,7 +90,7 @@ export default function ResumeForm({ initialRecord, onOpenHistory }: Props) {
         if (interviewError) throw interviewError
       }
 
-      const response = await fetch('http://localhost:3001/api/generate-questions', {
+      const response = await fetch(`${API}/api/generate-questions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ resumeText: resume, candidateName: name, jobTitle }),
@@ -128,7 +129,7 @@ export default function ResumeForm({ initialRecord, onOpenHistory }: Props) {
   async function handleFollowUp(index: number, questionText: string) {
     setFollowUpLoading(prev => ({ ...prev, [index]: true }))
     try {
-      const res = await fetch('http://localhost:3001/api/follow-up', {
+      const res = await fetch(`${API}/api/follow-up`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ questionText, candidateName: name, jobTitle }),
