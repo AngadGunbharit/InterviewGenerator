@@ -81,13 +81,15 @@ export default function ResumeForm({ initialRecord, onOpenHistory }: Props) {
     setQuestions([])
 
     try {
+      let interview: any = null
       if (!MOCK_MODE) {
         const { data: candidate, error: candidateError } = await supabase
           .from('candidates').insert({ name, email, resume_text: resume }).select().single()
         if (candidateError) throw candidateError
-        const { data: interview, error: interviewError } = await supabase
+        const { data: interviewData, error: interviewError } = await supabase
           .from('interviews').insert({ candidate_id: candidate.id, status: 'pending' }).select().single()
         if (interviewError) throw interviewError
+        interview = interviewData
       }
 
       const response = await fetch(`${API}/api/generate-questions`, {
