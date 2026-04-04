@@ -6,20 +6,7 @@ import pdfParse from 'pdf-parse/lib/pdf-parse.js'
 import mammoth from 'mammoth'
 
 const app = express()
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  'http://localhost:5173',
-].filter(Boolean) as string[]
-
-app.use(cors({
-  origin: (origin, cb) => {
-    if (!origin || allowedOrigins.some(o => origin.startsWith(o.replace(/\/$/, '')))) {
-      cb(null, true)
-    } else {
-      cb(new Error(`CORS: origin ${origin} not allowed`))
-    }
-  }
-}))
+app.use(cors())
 app.use(express.json())
 
 const MOCK_QUESTIONS_MODE = !process.env.ANTHROPIC_API_KEY  // mock question generation only
