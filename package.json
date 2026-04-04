@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"tsx server/index.ts\"",
     "server": "tsx server/index.ts",
+    "start": "tsx server/index.ts",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
